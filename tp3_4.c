@@ -22,6 +22,7 @@ struct Cliente {
 
 void cargarCliente(cliente *pcliente, int cant);
 void mostrarCliente(cliente *pcliente, int cant);
+int costoTotalxProd(producto prod);
 
 int main()
 {
@@ -78,8 +79,12 @@ void cargarCliente(cliente *pcliente, int cant)
 
 void mostrarCliente(cliente *pcliente, int cant)
 {
+    int costoxProd;
+
     for (int i=0;i<cant;i++)
     {
+        int costoTotal=0;
+        
         printf("\n---------- Datos del cliente [%d] ----------\n", i+1);
         printf("ID cliente: %d\n", pcliente->ClienteID);
         printf("Nombre del cliente: %s\n", pcliente->NombreCliente);
@@ -87,11 +92,23 @@ void mostrarCliente(cliente *pcliente, int cant)
 
         for (int j=0;j<pcliente->CantidadProductosAPedir;j++)
         {
-            printf("------ Producto Nro %d: %s \n", j+1, pcliente->Productos[j].TipoProducto);
+            printf("---------- Producto Nro %d: %s \n", j+1, pcliente->Productos[j].TipoProducto);
             printf("ID producto: %d\n", pcliente->Productos[j].ProductoID);
             printf("Cantidad: %d\n", pcliente->Productos[j].Cantidad);
             printf("Precio Unitario: %.2f\n", pcliente->Productos[j].PrecioUnitario);
+
+            costoxProd=costoTotalxProd(pcliente->Productos[j]);
+            printf("Costo total por producto: %d\n", costoxProd);
+
+            costoTotal=costoTotal+costoxProd;
         }
+        printf("---------- Total a pagar por el cliente: %d ----------\n", costoTotal);
+
         pcliente++;
     }
+}
+
+int costoTotalxProd(producto prod)
+{
+    return(prod.Cantidad*prod.PrecioUnitario);
 }
